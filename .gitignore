@@ -1,0 +1,7 @@
+.forgecycle/config.local.json
+.forgecycle/active.lock/
+.forgecycle/task-runs/
+.forgecycle/roadmap-runs/
+.forgecycle/worktrees/
+.forgecycle/adapter-cooldowns.json
+/forgecycle
