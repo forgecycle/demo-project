@@ -10,8 +10,8 @@ real game of checkers:
    also move and capture backward. The board shows kings differently from
    ordinary pieces.
 2. **Multi-jump captures.** After a capture, if the same piece can capture
-   again, it keeps jumping in the same turn. The turn passes only when the
-   chain ends.
+   again, it can go on jumping in the same turn. The turn passes when the
+   chain ends. When a chain ends is one of the rule questions below.
 3. **Capture rule.** Settle whether a player who can capture must capture,
    and enforce whatever is decided.
 4. **End of game.** A player with no pieces left, or no legal move on their
@@ -52,6 +52,13 @@ engine does. Each must be decided before the work that depends on it:
 - **Can a game be drawn?** For example by agreement, by repeating the same
   position, or after a number of moves with no capture. Or does every game
   end with a winner?
+- **Can a player stop a multi-jump partway?** After a capture, when the same
+  piece could capture again, must it keep jumping, or may the player end the
+  turn there? This can be decided differently from whether the first capture
+  is mandatory.
+- **Does being crowned end a multi-jump?** When a piece reaches the far row
+  during a chain, does the turn end there (as in American checkers), or does
+  the new king keep jumping if it can?
 - **How does the player play a multi-jump?** By clicking each landing square
   in turn, or does the chain finish by itself, and if so when?
 
@@ -72,7 +79,7 @@ engine does. Each must be decided before the work that depends on it:
 
 - A full game can be played from the opening position to a win, by the
   decided rules, in the browser.
-- `node --test tests/` covers kinging, king movement, multi-jump chains (including a
-  chain that crowns a piece), the decided capture rule, and every way a game
-  can end.
+- `node --test tests/` covers kinging, king movement, multi-jump chains
+  (including stopping partway, if allowed, and a chain that crowns a piece),
+  the decided capture rule, and every way a game can end.
 - `README.md` describes the rules the game now plays by.

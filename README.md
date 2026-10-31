@@ -70,7 +70,8 @@ forgecycle roadmap decompose plans/full-rules.md
 ```
 
 The plan leaves the rule variants open on purpose (is capturing mandatory,
-how far kings move, whether games can be drawn, how a multi-jump is played),
+how far kings move, whether games can be drawn, whether a multi-jump can
+stop partway or ends when a piece is crowned, how a multi-jump is played),
 so `decisions.md` has real questions to answer. Answer each one after its
 `Answer:` line, then run the whole roadmap unattended:
 
