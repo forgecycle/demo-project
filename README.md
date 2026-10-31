@@ -8,12 +8,8 @@ Builder, and Reviewer.
 
 ## Play it
 
-```bash
-npm start
-```
-
-Then open http://localhost:8000. Any static file server works; there is
-nothing to install or build.
+Open `index.html` in a browser. There is nothing to install, build, or
+serve.
 
 ## How to play
 
@@ -29,12 +25,12 @@ the feature plan.
 ## Run the tests
 
 ```bash
-npm test
+node --test tests/
 ```
 
 The rules live in `src/engine.js` and are tested with Node's built-in test
-runner (Node 22 or later). The page in `src/ui.js` only draws the board and
-calls the engine.
+runner (Node 22 or later; no npm, no packages). The page in `src/ui.js` only
+draws the board and calls the engine.
 
 ## The ForgeCycle demo
 

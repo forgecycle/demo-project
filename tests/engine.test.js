@@ -1,7 +1,7 @@
-import { test } from 'node:test';
-import assert from 'node:assert/strict';
-import { initialState, legalMoves, movesFrom, applyMove, pieceAt } from '../src/engine.js';
-import { boardFrom } from './board.js';
+const { test } = require('node:test');
+const assert = require('node:assert/strict');
+const { initialState, legalMoves, movesFrom, applyMove, pieceAt } = require('../src/engine.js');
+const { boardFrom } = require('./board.js');
 
 const destinations = (moves) => moves.map((m) => m.to).sort();
 

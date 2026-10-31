@@ -31,7 +31,11 @@ timers, and any build step or dependency.
 - `src/ui.js` draws the board and turns clicks into engine calls. It holds
   no rules: it asks the engine which moves are legal.
 - `tests/engine.test.js` covers the engine with Node's built-in test runner
-  (`npm test`). `tests/board.js` builds states from a picture of the board.
+  (`node --test tests/`). `tests/board.js` builds states from a picture of
+  the board.
+- The game runs by opening `index.html` as a file. The scripts are plain
+  `<script>` tags: `engine.js` defines a `Checkers` global for `ui.js`, and
+  `module.exports` for the tests.
 - When a player has no legal move, the game currently just sits there with
   "Dark to move" showing.
 
@@ -58,9 +62,9 @@ engine does. Each must be decided before the work that depends on it:
 - Every rule change comes with engine tests in `tests/engine.test.js`, using
   `boardFrom` for positions. Extend `boardFrom` (for example with `D` and
   `L` for kings) rather than building boards by hand.
-- No dependencies and no build step. `npm test` must keep passing, and the
-  page must keep working when served as static files
-  (`python3 -m http.server`).
+- No dependencies, no package manager, and no build step.
+  `node --test tests/` must keep passing, and the game must keep working
+  when `index.html` is opened as a file, with no server.
 - UI changes are checked by hand in a browser. Keep them small and describe
   in the handoff how to see each one.
 
@@ -68,7 +72,7 @@ engine does. Each must be decided before the work that depends on it:
 
 - A full game can be played from the opening position to a win, by the
   decided rules, in the browser.
-- `npm test` covers kinging, king movement, multi-jump chains (including a
+- `node --test tests/` covers kinging, king movement, multi-jump chains (including a
   chain that crowns a piece), the decided capture rule, and every way a game
   can end.
 - `README.md` describes the rules the game now plays by.

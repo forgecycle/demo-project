@@ -1,7 +1,8 @@
 // Draws the board and turns clicks into engine calls. All rules live in
 // engine.js; this file only keeps the current state and the selected square.
+// A plain script: index.html loads engine.js first, which defines `Checkers`.
 
-import { SIZE, initialState, isPlayable, pieceAt, legalMoves, applyMove } from './engine.js';
+const { SIZE, initialState, isPlayable, pieceAt, legalMoves, applyMove } = Checkers;
 
 const boardEl = document.getElementById('board');
 const statusEl = document.getElementById('status');

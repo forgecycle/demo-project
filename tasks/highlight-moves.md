@@ -19,7 +19,7 @@ clears the selection.
   `legalMoves`. Do not add rules to `src/ui.js`.
 - Mark a capture's destination differently from a plain step, so a player
   can tell the two apart.
-- No dependencies and no build step.
+- No dependencies, no package manager, and no build step.
 
 ## Acceptance criteria
 
@@ -30,5 +30,8 @@ clears the selection.
 3. The marks disappear when the piece moves, when the selection is cleared,
    and when another piece is selected.
 4. A piece with no legal moves can still be selected and shows no marks.
-5. `npm test` passes. If you add an engine helper for this, it has tests.
-6. `README.md` mentions the highlighting under "How to play".
+5. `node --test tests/` passes. If you add an engine helper for this, it has
+   tests.
+6. The game still works when `index.html` is opened as a file, with no
+   server.
+7. `README.md` mentions the highlighting under "How to play".
