@@ -52,7 +52,7 @@ fits one run: highlight where the selected piece can move. It pauses for your
 approval after the plan and again before it finishes.
 
 ```bash
-forgecycle task run tasks/highlight-moves.md
+forgecycle task run tasks/highlight-moves.md --auto-resume
 ```
 
 Watch Planner plan it, approve the plan, then watch Builder implement it and
@@ -76,7 +76,7 @@ so `decisions.md` has real questions to answer. Answer each one after its
 `Answer:` line, then run the whole roadmap unattended:
 
 ```bash
-forgecycle roadmap run tasks/<generated-dir>
+forgecycle roadmap run tasks/<generated-dir> --auto-resume
 ```
 
 Each task runs as its own task run on a base that contains the earlier
