@@ -10,84 +10,100 @@
     "copy_ignored": []
   },
   "adapters": {
-    "opencode": { "binary": "opencode" },
-    "codex": { "binary": "codex" },
-    "claude": { "binary": "claude" },
-    "agy": { "binary": "agy", "print_timeout": "8760h" }
+    "codex": {
+      "binary": "codex"
+    }
   },
   "candidates": {
+    "codex-gpt-6-astra-high": {
+      "adapter": "codex",
+      "model": "gpt-6-astra",
+      "effort": "high",
+      "permission": "unrestricted"
+    },
     "codex-gpt-6-astra-medium": {
       "adapter": "codex",
       "model": "gpt-6-astra",
       "effort": "medium",
       "permission": "unrestricted"
     },
-    "agy-claude-opus-5-5-high": {
-      "adapter": "agy",
-      "model": "claude-opus-5-5-high",
-      "effort": "high",
-      "permission": "unrestricted"
-    },
-    "claude-claude-opus-5-5-high": {
-      "adapter": "claude",
-      "model": "claude-opus-5-5",
-      "effort": "high",
-      "permission": "unrestricted"
-    },
-
     "codex-gpt-6.1-sol-high": {
       "adapter": "codex",
       "model": "gpt-6.1-sol",
       "effort": "high",
       "permission": "unrestricted"
     },
-    "claude-claude-sonnet-5-5-high": {
-      "adapter": "claude",
-      "model": "claude-sonnet-5-5",
-      "effort": "high",
+    "codex-gpt-6.1-sol-medium": {
+      "adapter": "codex",
+      "model": "gpt-6.1-sol",
+      "effort": "medium",
       "permission": "unrestricted"
     },
-    "agy-gemini-3.1-pro-high-high": {
-      "adapter": "agy",
-      "model": "gemini-3.1-pro-high",
-      "effort": "high",
-      "permission": "unrestricted"
-    },
-    "agy-claude-sonnet-5-5-high-high": {
-      "adapter": "agy",
-      "model": "claude-sonnet-5-5-high",
-      "effort": "high",
-      "permission": "unrestricted"
-    },
-
-    "agy-gemini-3.8-flash-high-high": {
-      "adapter": "agy",
-      "model": "gemini-3.8-flash-high",
-      "effort": "high",
-      "permission": "unrestricted"
-    },
-    "opencode-zai-coding-plan-glm-5.3-flash-high-max": {
-      "adapter": "opencode",
-      "model": "zai-coding-plan/glm-5.3-flash",
-      "effort": "high",
-      "native_effort": "max",
-      "permission": "unrestricted"
-    },
-    "opencode-opencode-go-deepseek-v4.1-flash-high-max": {
-      "adapter": "opencode",
-      "model": "opencode-go/deepseek-v4.1-flash",
-      "effort": "high",
-      "native_effort": "max",
+    "codex-gpt-6-luna-medium": {
+      "adapter": "codex",
+      "model": "gpt-6-luna",
+      "effort": "medium",
       "permission": "unrestricted"
     }
   },
   "policies": {
+    "economy": {
+      "decomposer": [
+        "codex-gpt-6.1-sol-high",
+        "codex-gpt-6-astra-medium"
+      ],
+      "planner": [
+        "codex-gpt-6.1-sol-high",
+        "codex-gpt-6.1-sol-medium"
+      ],
+      "builder": [
+        "codex-gpt-6-luna-medium",
+        "codex-gpt-6.1-sol-medium"
+      ],
+      "reviewer": [
+        "codex-gpt-6.1-sol-high",
+        "codex-gpt-6.1-sol-medium"
+      ]
+    },
     "balanced": {
-      "decomposer": ["codex-gpt-6-astra-medium", "agy-claude-opus-5-5-high", "claude-claude-opus-5-5-high"],
-      "planner": ["codex-gpt-6.1-sol-high", "agy-claude-sonnet-5-5-high-high", "claude-claude-sonnet-5-5-high", "agy-gemini-3.1-pro-high-high"],
-      "builder": ["opencode-opencode-go-deepseek-v4.1-flash-high-max", "opencode-zai-coding-plan-glm-5.3-flash-high-max", "agy-gemini-3.8-flash-high-high"],
-      "reviewer": ["codex-gpt-6.1-sol-high", "agy-gemini-3.1-pro-high-high", "agy-claude-sonnet-5-5-high-high", "claude-claude-sonnet-5-5-high"]
+      "decomposer": [
+        "codex-gpt-6-astra-medium",
+        "codex-gpt-6.1-sol-high"
+      ],
+      "planner": [
+        "codex-gpt-6.1-sol-high",
+        "codex-gpt-6-astra-medium"
+      ],
+      "builder": [
+        "codex-gpt-6.1-sol-medium",
+        "codex-gpt-6-luna-medium"
+      ],
+      "reviewer": [
+        "codex-gpt-6.1-sol-high",
+        "codex-gpt-6-astra-medium"
+      ]
+    },
+    "quality": {
+      "decomposer": [
+        "codex-gpt-6-astra-high",
+        "codex-gpt-6.1-sol-high"
+      ],
+      "planner": [
+        "codex-gpt-6-astra-high",
+        "codex-gpt-6.1-sol-high"
+      ],
+      "builder": [
+        "codex-gpt-6.1-sol-high",
+        "codex-gpt-6.1-sol-medium"
+      ],
+      "reviewer": [
+        "codex-gpt-6-astra-high",
+        "codex-gpt-6.1-sol-high"
+      ]
     }
   },
-  "instructions": ["AGENTS.md", "README.md"]
+  "instructions": [
+    "AGENTS.md",
+    "README.md"
+  ]
 }
