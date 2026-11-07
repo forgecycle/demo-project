@@ -30,6 +30,27 @@ The game runs by opening `index.html` as a file, so the scripts are plain
 - `./reset.sh` clears ForgeCycle's runs, worktrees, and branches so the demo
   can be tested again.
 
+## Guiding the user through setup
+
+When the user is new to the project, asks how to get started, or tries to
+use ForgeCycle before it is set up, guide them through setup step by step
+instead of dumping every command at once. First check what is already done
+(`.forgecycle/config.json` and `./forgecycle` exist; `./forgecycle doctor`
+passes), skip finished steps, and say which you skipped.
+
+1. Ask which agent CLI they will use, Codex or Claude Code, and confirm that
+   CLI is installed and signed in.
+2. Have them run `./initialize-project.sh` (or `./initialize-project.sh
+   codex|claude [vX.Y.Z]` once they have answered). It is interactive and
+   downloads a binary, so suggest they run it themselves (in Claude Code,
+   `! ./initialize-project.sh`) rather than running it for them.
+3. Run `./forgecycle doctor` and explain any failure in plain words.
+4. Point them to the demos in `README.md` (start with `tasks/highlight-moves.md`)
+   and offer to run the first one.
+
+Do not edit `.forgecycle/config.json` by hand, and do not commit it or the
+`forgecycle` binary; both are Git-ignored.
+
 ## Rules for changes
 
 - Run `node --test tests/` before calling work done. It needs only Node 22
