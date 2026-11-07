@@ -35,6 +35,8 @@ A non-zero exit is where your work starts, not where it ends. Never end your tur
 
 If a killed command was a `roadmap run` or `roadmap resume`, `forgecycle status` lists the roadmap run too; `forgecycle roadmap resume <roadmap-run-id>` continues it, including an interrupted task run.
 
+To stop a running command yourself, send it SIGTERM or SIGINT once (`kill <pid>`, or Ctrl-C in its terminal) and wait for it to exit. It stops the agent CLI or the gate, runs the gate's `cleanup`, prints a stop block, and ends with exit status 143 or 130; with a gate cleanup that can take a couple of minutes. Never use `kill -9`: it leaves a running gate's processes behind, still working in the worktree. Afterwards the run is `interrupted` or stopped with `gate_failure (interrupted)`, recovered with `task resume` (or `roadmap resume`) like any other.
+
 Before you start a task run (`task run`) or a roadmap run (`roadmap run`), ask the user whether to pass `--auto-resume`, and say what it does and that every automatic resume is a billed model call; for a roadmap run, add that the choice covers all its task runs and that a later `roadmap resume` cannot turn it off. Pass it only when they say yes. Do not ask again when the user already gave a standing answer this session ("always" or "never"): apply it and say so in one line. A task run does not store the flag, so pass the same answer on that run's later `task resume`; if that answer is not in the conversation (a new session, for example), ask again before resuming. A roadmap run stores it: `roadmap status` shows `Auto-resume: true` or `false`, and its task runs inherit it, so follow that setting for `roadmap resume` and for any `task resume` of its task runs instead of asking. With `--auto-resume` on `task run`, `task resume`, `roadmap run`, or `roadmap resume` (a roadmap run passes it to every task run), ForgeCycle resumes the stops marked in the Recover table by itself, at most once between two accepted handoffs. The output shows `forgecycle: info: auto-resume: <stop-kind> …` after the stop's block, and the command exits with the stop that remains.
 
 ## Do not shortcut the loop
@@ -59,7 +61,7 @@ Stored states: `planning → awaiting_plan_approval → building → reviewing �
 
 ## When a run stops: diagnose, then recover or escalate
 
-Exit `0` is success, `20` blocked, `21` waiting or paused, `22` failed, `64` a usage error, and `65` invalid setup. The exit code alone does not tell you what to do next. Every stop prints a stop block after its info line:
+Exit `0` is success, `20` blocked, `21` waiting or paused, `22` failed, `64` a usage error, and `65` invalid setup. A usage error names the command and ends with `Try 'forgecycle <command> --help'.`; read that help, fix the arguments, and retry. The exit code alone does not tell you what to do next. Every stop prints a stop block after its info line:
 
 ```text
 forgecycle: info: Run blocked: all candidates failed: builder: quota_exhausted (...)
@@ -72,6 +74,10 @@ forgecycle: next: forgecycle task resume <task-run-id>  # after the provider quo
 ```
 
 `forgecycle task status <task-run-id>` prints the same report later (`Reason`, `Stop kind`, `Resumes into`, `Latest handoff`, `Unaccepted head`, `Events log`, `Evidence`, `Next`). `state.json` stores the classification as `stop_kind` and `stop_detail`; base decisions on those, not on the wording of `reason`. A line labeled `next (human decision)` is never yours to take alone.
+
+`Repository is reserved by run <task-run-id>` (exit 21) means another task run holds the repository: a stopped or interrupted one keeps it. The lines after the error start with `forgecycle: stop: reserved_by=<task-run-id> status=<state>` and give that task run's `next:` lines, so recover it with the table below as if it had just stopped. Never start a new task run instead; the `task abandon` line that ends the list is a human decision. `process=<pid>` means a process still advances it: wait. A reservation whose task run is done, abandoned, or missing is stale; removing `.forgecycle/active.lock` is the user's decision.
+
+`Run is already being advanced by process <pid>` or `Roadmap run <roadmap-run-id> is already being advanced by process <pid>` (exit 21) means another process is advancing that same run, often one you started in the background. Its `next:` line is `forgecycle task status` or `forgecycle roadmap status`: wait for the process to stop, then follow that run's stop block. Never kill the process or remove its lock yourself; `process=unknown` (a lock that names no process) is the user's to remove.
 
 ### Diagnose
 
