@@ -45,6 +45,14 @@ The `forgecycle` binary must sit in the root directory of this repository
 `./forgecycle` from there. The agent skill is installed at the repository
 root too.
 
+To download the right binary for your machine (Linux or macOS, Intel or ARM)
+into the root, run the script. It checks the download against the release's
+checksums, and takes an optional version such as `v0.4.4`:
+
+```bash
+./download-forgecycle.sh
+```
+
 To update the binary to the latest release:
 
 ```bash
