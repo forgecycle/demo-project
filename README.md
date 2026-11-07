@@ -34,24 +34,42 @@ draws the board and calls the engine.
 
 ## The ForgeCycle demo
 
-ForgeCycle is configured in `.forgecycle/config.json` with real agent CLIs:
-Codex, Claude Code, OpenCode, and Antigravity's `agy`. Every run below calls
-paid models.
+ForgeCycle runs real agent CLIs: here Codex or Claude Code. Every run below
+calls paid models.
+
+### Set up the project
+
+Run the setup script from the repository root:
+
+```bash
+./initialize-project.sh
+```
+
+It does two things:
+
+1. Asks whether to use Codex or Claude Code, and copies
+   [`.forgecycle/config.codex.json`](.forgecycle/config.codex.json) or
+   [`.forgecycle/config.claude.json`](.forgecycle/config.claude.json) to
+   `.forgecycle/config.json`, the file ForgeCycle reads. `config.json` is
+   Git-ignored, so each person picks their own agent. Edit the `config.codex.json`
+   or `config.claude.json` file to change the shared settings, then run the
+   script again to apply it; it asks before replacing a different
+   `config.json`.
+2. Downloads the right `forgecycle` binary for your machine (Linux or macOS,
+   Intel or ARM) into the repository root, checked against the release's
+   checksums.
+
+You can skip the questions: `./initialize-project.sh claude`, or
+`./initialize-project.sh codex v0.4.4` to also pick a release. To switch
+agents later, run the script again. Make sure the CLI you chose (`codex` or
+`claude`) is installed and signed in.
 
 ### Install and update ForgeCycle
 
 The `forgecycle` binary must sit in the root directory of this repository
 (next to `README.md`), because every command in this section is run as
-`./forgecycle` from there. The agent skill is installed at the repository
-root too.
-
-To download the right binary for your machine (Linux or macOS, Intel or ARM)
-into the root, run the script. It checks the download against the release's
-checksums, and takes an optional version such as `v0.4.4`:
-
-```bash
-./download-forgecycle.sh
-```
+`./forgecycle` from there. `initialize-project.sh` puts it there. The agent
+skill is installed at the repository root too.
 
 To update the binary to the latest release:
 

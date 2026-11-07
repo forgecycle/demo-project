@@ -19,6 +19,17 @@ The game runs by opening `index.html` as a file, so the scripts are plain
   with `require()`. `tests/board.js` builds a state from a picture of the
   board; use it for new positions.
 
+## ForgeCycle setup
+
+- `./initialize-project.sh` asks whether to use Codex or Claude Code, copies
+  `.forgecycle/config.codex.json` or `.forgecycle/config.claude.json` to
+  `.forgecycle/config.json`, and downloads the `forgecycle` binary into the
+  repository root. `config.json` and `forgecycle` are Git-ignored.
+- Change shared ForgeCycle settings in `config.codex.json` and
+  `config.claude.json` (keep them in step), never only in `config.json`.
+- `./reset.sh` clears ForgeCycle's runs, worktrees, and branches so the demo
+  can be tested again.
+
 ## Rules for changes
 
 - Run `node --test tests/` before calling work done. It needs only Node 22

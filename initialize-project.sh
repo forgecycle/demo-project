@@ -1,10 +1,41 @@
 #!/usr/bin/env bash
-# Download the forgecycle binary for this machine into the repository root.
-# Usage: ./download-forgecycle.sh [vX.Y.Z]   (default: the latest release)
+# Set this project up for ForgeCycle:
+#   1. choose the agent CLI (Codex or Claude Code) and copy its configuration,
+#      .forgecycle/config.codex.json or .forgecycle/config.claude.json, to
+#      .forgecycle/config.json;
+#   2. download the forgecycle binary for this machine into the repository root.
+# Usage: ./initialize-project.sh [codex|claude] [vX.Y.Z]
+#        (asks which agent when it is not given; version defaults to the latest)
 # Once ./forgecycle exists, use `./forgecycle update` to change versions.
 set -euo pipefail
 
 cd "$(dirname "$0")"
+
+agent=
+case ${1:-} in codex | claude) agent=$1; shift ;; esac
+
+if [ -z "$agent" ]; then
+  echo "Which agent CLI should ForgeCycle use?"
+  echo "  1) Codex"
+  echo "  2) Claude Code"
+  while [ -z "$agent" ]; do
+    read -r -p "Choose 1 or 2: " answer
+    case $answer in
+      1 | codex | Codex) agent=codex ;;
+      2 | claude | Claude) agent=claude ;;
+    esac
+  done
+fi
+
+if [ -e .forgecycle/config.json ] &&
+  ! cmp -s ".forgecycle/config.$agent.json" .forgecycle/config.json; then
+  read -r -p ".forgecycle/config.json exists and differs. Replace it? [y/N] " answer
+  case $answer in y | Y | yes) ;; *) echo "Kept the existing config.json."; agent= ;; esac
+fi
+if [ -n "$agent" ]; then
+  cp ".forgecycle/config.$agent.json" .forgecycle/config.json
+  echo "Configured ForgeCycle for $agent (.forgecycle/config.json)."
+fi
 
 repo=forgecycle/forgecycle-releases
 version=${1:-}

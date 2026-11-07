@@ -5,3 +5,4 @@
 .forgecycle/worktrees/
 .forgecycle/adapter-cooldowns.json
 /forgecycle
+.forgecycle/config.json
