@@ -36,14 +36,40 @@ draws the board and calls the engine.
 
 ForgeCycle is configured in `.forgecycle/config.json` with real agent CLIs:
 Codex, Claude Code, OpenCode, and Antigravity's `agy`. Every run below calls
-paid models. Check the setup first:
+paid models.
+
+### Install and update ForgeCycle
+
+The `forgecycle` binary must sit in the root directory of this repository
+(next to `README.md`), because every command in this section is run as
+`./forgecycle` from there. The agent skill is installed at the repository
+root too.
+
+To update the binary to the latest release:
 
 ```bash
-forgecycle doctor
+./forgecycle update
 ```
 
-Use `./forgecycle` instead of `forgecycle` if a project-local binary sits in
-the repository root.
+`update --check` only prints the current and latest versions, and
+`update vX.Y.Z` installs a specific release. Because the binary is
+project-local, this updates the version pinned for this project. When the
+binary sits at the repository root, `update` then runs `init skill`, but it
+keeps a skill copy that differs from the new one and only warns about it.
+
+To replace the agent skill in `.claude/skills/forgecycle` and
+`.agents/skills/forgecycle` with the copy that matches the binary (local
+edits to the skill are lost):
+
+```bash
+./forgecycle init skill --force
+```
+
+### Check the setup
+
+```bash
+./forgecycle doctor
+```
 
 ### Demo 1: one task run
 
@@ -52,7 +78,7 @@ fits one run: highlight where the selected piece can move. It pauses for your
 approval after the plan and again before it finishes.
 
 ```bash
-forgecycle task run tasks/highlight-moves.md --auto-resume
+./forgecycle task run tasks/highlight-moves.md --auto-resume
 ```
 
 Watch Planner plan it, approve the plan, then watch Builder implement it and
@@ -66,7 +92,7 @@ let the Decomposer split it into ordered tasks and list the decisions only a
 person can make:
 
 ```bash
-forgecycle roadmap decompose plans/full-rules.md
+./forgecycle roadmap decompose plans/full-rules.md
 ```
 
 The plan leaves the rule variants open on purpose (is capturing mandatory,
@@ -76,7 +102,7 @@ so `decisions.md` has real questions to answer. Answer each one after its
 `Answer:` line, then run the whole roadmap unattended:
 
 ```bash
-forgecycle roadmap run tasks/<generated-dir> --auto-resume
+./forgecycle roadmap run tasks/<generated-dir> --auto-resume
 ```
 
 Each task runs as its own task run on a base that contains the earlier
@@ -86,4 +112,4 @@ tasks' work. When the last one is done, review and merge one branch:
 git merge --ff-only forgecycle/roadmap/<roadmap-run-id>
 ```
 
-`forgecycle serve --open` shows every run as it happens.
+`./forgecycle serve --open --listen 0.0.0.0` shows every run as it happens.
